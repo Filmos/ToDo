@@ -1,6 +1,10 @@
 {
   "rules": {
-    ".read": true,
-    ".write": false
+    "tasks": {
+      "$user_id": {
+        ".write": "auth !== null && $user_id === auth.uid",
+        ".read": "auth !== null && $user_id === auth.uid"
+      }
+    }
   }
 }

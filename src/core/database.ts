@@ -43,16 +43,17 @@ function requireLogin() {
         }
     })
 }
+function getUserUID() {
+    return firebase.auth().currentUser?.uid;
+}
 
 let isLoggedIn = ref(false);
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         isLoggedIn.value = true;
-        console.log('user is logged in', user);
     } else {
         isLoggedIn.value = false;
-        console.log('user is not logged in');
     }
 })
 
-export { makeAuthUI, signOut, requireLogin, isLoggedIn };
+export { makeAuthUI, signOut, requireLogin, getUserUID, isLoggedIn };
