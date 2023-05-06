@@ -16,6 +16,8 @@ function createTask(task: string) {
 interface Task {
     task: string;
     uid: string;
+    quote?: string;
+    props?: { [name: string]: string };
 }
 const shuffledTasks: Ref<Task[]> = ref([]);
 onceLoggedIn(() => {
@@ -25,13 +27,23 @@ onceLoggedIn(() => {
         const data = snapshot.val() || {};
         const tasks = Object.keys(data).map((key) => {
             return {
-                task: data[key].task,
+                ...data[key],
                 uid: key
             }
         });
-        shuffledTasks.value = tasks;
+        shuffledTasks.value = shuffleTasks(tasks);
     });
 
 })
+function shuffleTasks(tasks: Task[]) {
+    return tasks.sort((a, b) => a.uid > b.uid ? 1 : -1);
+}
 
-export { createTask, shuffledTasks };
+const defaultTask = {
+    props: {
+        "Difficulty": "Unknown",
+        "Time": "Unknown"
+    }
+}
+
+export { createTask, shuffledTasks, defaultTask };
