@@ -1,25 +1,29 @@
 <script setup lang="ts">
 import { defineProps, computed } from 'vue';
-import { defaultTask, deleteTask } from '@/core/tasks';
+import { defaultTask, deleteTask, getImage } from '@/core/tasks';
 
 const props = defineProps(['task'])
 const fullTask = computed(() => {
     return { ...defaultTask, ...props.task }
 })
+const image = getImage(fullTask)
 </script>
 
 <template>
     <div class="task">
+        <span class="title">{{ fullTask.task }}</span>
+        <div class="icon">
+            <div class="align"><img v-if="image" :src="image" /></div>
+        </div>
         <div class="inner">
-            <span class="title">{{ fullTask.task }}</span>
             <span v-for="value, prop in fullTask.props" :key="prop" class="prop">
                 <span class="label">{{ prop }}:</span> {{ value }}
             </span>
             <span v-if="fullTask.quote" class="quote">{{ fullTask.quote }}</span>
         </div>
         <span class="buttons">
-            <span class="complete" @click="deleteTask(fullTask.uid)">Complete</span>
-            <span class="abandon" @click="deleteTask(fullTask.uid)">Abandon</span>
+            <span class="complete" @click="deleteTask(fullTask)">Complete</span>
+            <span class="abandon" @click="deleteTask(fullTask)">Abandon</span>
         </span>
     </div>
 </template>
@@ -40,10 +44,12 @@ const fullTask = computed(() => {
     border-radius: 0.6rem;
     min-width: 28%;
     margin: 0.4rem;
+    padding-top: 0.25rem;
 }
 
 .inner {
-    padding: 0.25rem 0.6rem 0.6rem;
+    margin-top: 0.3rem;
+    padding: 0rem 0.6rem 0.6rem;
 }
 
 .title {
@@ -51,7 +57,24 @@ const fullTask = computed(() => {
     line-height: 1.2em;
     color: var(--color-text-heading);
     text-align: center;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.3rem;
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+
+    .align {
+        width: min-content;
+        min-width: min(30vh, 100%);
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+        -webkit-mask-image: -webkit-gradient(linear, left bottom, left top, color-stop(65%, rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
+        mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0));
+    }
 }
 
 .prop,
