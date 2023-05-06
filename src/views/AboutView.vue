@@ -4,6 +4,17 @@
   </div>
 </template>
 
+<script setup lang="ts">
+import db from '@/core/database';
+import { ref, onValue } from "firebase/database";
+
+onValue(ref(db, "tasks"), (snapshot) => {
+  const data = snapshot.val();
+  console.log(data);
+});
+
+</script>
+
 <style>
 @media (min-width: 1024px) {
   .about {
