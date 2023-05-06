@@ -47,13 +47,22 @@ function getUserUID() {
     return firebase.auth().currentUser?.uid;
 }
 
+let onLogin: Function[] = [];
 let isLoggedIn = ref(false);
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         isLoggedIn.value = true;
+        onLogin.forEach((callback) => {
+            callback();
+        })
+        onLogin = [];
     } else {
         isLoggedIn.value = false;
     }
 })
 
-export { makeAuthUI, signOut, requireLogin, getUserUID, isLoggedIn };
+function onceLoggedIn(callback: Function) {
+    onLogin.push(callback);
+}
+
+export { makeAuthUI, signOut, requireLogin, getUserUID, onceLoggedIn, isLoggedIn };
