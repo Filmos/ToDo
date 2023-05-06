@@ -1,4 +1,4 @@
-import { ref as dbref, get, onValue, set } from "firebase/database";
+import { ref as dbref, remove, onValue, set } from "firebase/database";
 import { db, getUserUID, onceLoggedIn } from './database';
 import { ref, type Ref } from 'vue';
 
@@ -46,4 +46,14 @@ const defaultTask = {
     }
 }
 
-export { createTask, shuffledTasks, defaultTask };
+function deleteTask(taskUID: string) {
+    const userUID = getUserUID();
+    if (!userUID) {
+        alert('Please sign in first!');
+        return;
+    }
+
+    remove(dbref(db, `tasks/${userUID}/${taskUID}`));
+}
+
+export { createTask, shuffledTasks, defaultTask, deleteTask };

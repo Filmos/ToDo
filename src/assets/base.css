@@ -20,12 +20,24 @@
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.87);
   --vt-c-text-dark-3: rgba(235, 235, 235, 0.64);
+
+  --vt-raw-c-green: 66, 184, 131;
+  --vt-c-green: rgb(var(--vt-raw-c-green));
+  --vt-c-green-light: hsl(153, 62%, 54%);
+  --vt-c-green-lighter: hsl(153, 82%, 80%);
+
+  --vt-raw-c-red: 237, 60, 80;
+  --vt-c-red: rgb(var(--vt-raw-c-red));
+  --vt-c-red-light: hsl(342, 90%, 59%);
+  --vt-c-red-lighter: hsl(335, 98%, 80%);
 }
 
 :root {
   --color-background: var(--vt-c-black);
   --color-background-soft: var(--vt-c-black-soft);
   --color-background-mute: var(--vt-c-black-mute);
+  --raw-color-background-success: var(--vt-raw-c-green);
+  --raw-color-background-error: var(--vt-raw-c-red);
 
   --color-border: var(--vt-c-divider-dark-2);
   --color-border-hover: var(--vt-c-divider-dark-1);
@@ -33,6 +45,11 @@
   --color-text-heading: var(--vt-c-text-dark-1);
   --color-text-bold: var(--vt-c-text-dark-2);
   --color-text: var(--vt-c-text-dark-3);
+  --color-text-success: var(--vt-c-green-light);
+  --color-text-success-hover: var(--vt-c-green-lighter);
+  --color-text-error: var(--vt-c-red-light);
+  --color-text-error-hover: var(--vt-c-red-lighter);
+
 
   --outside-margin: 0.5rem;
 }
