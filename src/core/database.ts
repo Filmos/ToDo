@@ -3,6 +3,7 @@ import firebase from "firebase/compat/app";
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 import 'firebase/compat/auth';
+import { ref } from 'vue';
 
 const firebaseConfig = {
     apiKey: "AIzaSyDXmtJRsurbjKAZNUmr9D1ULiB7F3R6ieQ",
@@ -21,14 +22,6 @@ const db = getDatabase();
 export { db };
 
 
-firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        console.log('user is logged in', user);
-    } else {
-        console.log('user is not logged in');
-    }
-})
-
 
 const authUI = new firebaseui.auth.AuthUI(firebase.auth());
 const authConfig = {
@@ -40,7 +33,7 @@ const authConfig = {
 function makeAuthUI(targetDiv: string) {
     authUI.start(targetDiv, authConfig);
 }
-function signOutUser() {
+function signOut() {
     firebase.auth().signOut();
 }
 function requireLogin() {
@@ -51,4 +44,15 @@ function requireLogin() {
     })
 }
 
-export { makeAuthUI, signOutUser, requireLogin };
+let isLoggedIn = ref(false);
+firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+        isLoggedIn.value = true;
+        console.log('user is logged in', user);
+    } else {
+        isLoggedIn.value = false;
+        console.log('user is not logged in');
+    }
+})
+
+export { makeAuthUI, signOut, requireLogin, isLoggedIn };
