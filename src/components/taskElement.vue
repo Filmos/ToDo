@@ -56,6 +56,7 @@ const image = getImage(fullTask)
     color: var(--color-text-heading);
     text-align: center;
     margin-bottom: 0.3rem;
+    font-weight: 600;
 }
 
 .icon {
