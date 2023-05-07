@@ -21,7 +21,7 @@ const image = getImage(fullTask)
         </div>
         <div class="inner">
             <span v-for="value, prop in fullTask.props" :key="prop" class="prop">
-                <span class="label">{{ prop }}:</span> {{ value }}
+                <span class="label">{{ prop }}:</span> {{ value[0].toUpperCase() + value.slice(1) }}
             </span>
             <span v-if="fullTask.quote" class="quote">{{ fullTask.quote }}</span>
         </div>
