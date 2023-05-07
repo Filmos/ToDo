@@ -5,7 +5,10 @@ import { defaultTask, deleteTask, getImage } from '@/core/tasks';
 
 const props = defineProps(['task'])
 const fullTask = computed(() => {
-    return { ...defaultTask, ...props.task }
+    return {
+        ...defaultTask, ...props.task,
+        props: { ...defaultTask.props, ...(props.task.props || {}) }
+    }
 })
 const image = getImage(fullTask)
 </script>
