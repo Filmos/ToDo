@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { defineProps, computed } from 'vue';
+import TaskFrame from '@/components/taskFrame.vue';
 import { defaultTask, deleteTask, getImage } from '@/core/tasks';
 
 const props = defineProps(['task'])
@@ -10,10 +11,10 @@ const image = getImage(fullTask)
 </script>
 
 <template>
-    <div class="task">
+    <TaskFrame class="task" :task="fullTask">
         <span class="title">{{ fullTask.task }}</span>
-        <div class="icon">
-            <div class="align"><img v-if="image" :src="image" /></div>
+        <div v-if="image" class="icon">
+            <div class="align"><img :src="image" /></div>
         </div>
         <div class="inner">
             <span v-for="value, prop in fullTask.props" :key="prop" class="prop">
@@ -25,7 +26,7 @@ const image = getImage(fullTask)
             <span class="complete" @click="deleteTask(fullTask)">Complete</span>
             <span class="abandon" @click="deleteTask(fullTask)">Abandon</span>
         </span>
-    </div>
+    </TaskFrame>
 </template>
 
 
@@ -39,9 +40,6 @@ const image = getImage(fullTask)
 }
 
 .task {
-    background-color: var(--color-background-soft);
-    border: solid 3px var(--color-border);
-    border-radius: 0.6rem;
     min-width: 28%;
     margin: 0.4rem;
     padding-top: 0.25rem;
@@ -74,6 +72,7 @@ const image = getImage(fullTask)
         height: auto;
         -webkit-mask-image: -webkit-gradient(linear, left bottom, left top, color-stop(65%, rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
         mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0));
+        filter: saturate(0.6);
     }
 }
 

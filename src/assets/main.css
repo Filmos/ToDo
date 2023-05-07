@@ -5,6 +5,7 @@
   height: calc(100vh - 1rem);
   margin: var(--outside-margin) calc(2 * var(--outside-margin));
   padding: calc(6 * var(--outside-margin));
+  padding-bottom: calc(0.5 * var(--outside-margin));
 
   display: flex;
   flex-direction: column;
