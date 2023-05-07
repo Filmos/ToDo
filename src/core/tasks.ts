@@ -38,7 +38,7 @@ onceLoggedIn(() => {
 
 })
 function shuffleTasks(tasks: Task[]) {
-    return tasks.sort((a, b) => a.uid > b.uid ? 1 : -1);
+    return tasks.sort(() => Math.random() - 0.5);
 }
 
 const defaultTask = {
