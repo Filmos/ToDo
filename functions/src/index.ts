@@ -28,15 +28,24 @@ export const generateExtraTaskFields = functions.database.instance('ai-todo-list
 \`\`\``}],
             user: context.params.userId
         })
+        console.log(`Status ${response.status}: ${response.statusText}`)
+        console.log("Full response: ", response?.data)
 
         const returnedValue = response?.data?.choices[0]?.message?.content;
         if (!returnedValue) return
+        console.log("Raw response: ", returnedValue.replace(/\n/g, "\\n"))
         let filledTemplate: any;
         try {
             filledTemplate = JSON.parse(returnedValue) as any;
             if (!filledTemplate) return
         } catch (e) {
-            return
+            try {
+                const fixedResponse = returnedValue.replace(/(\w)\s*}\s*$/, '$1"}').replace(/(Quote":\s*")((?:.|\s)+?)("?\s*})$/, (match, p1, p2, p3) => `${p1}${p2.replace(/"/g, '')}${p3}`)
+                filledTemplate = JSON.parse(fixedResponse) as any;
+                if (!filledTemplate) return
+            } catch (e) {
+                console.error("Response wasn't a valid JSON object")
+            }
         }
 
         let props: { [key: string]: string } = {
@@ -48,7 +57,7 @@ export const generateExtraTaskFields = functions.database.instance('ai-todo-list
             break
         }
 
-        return snapshot.ref.update({
+        return await snapshot.ref.update({
             props: props,
             quote: filledTemplate.Quote
         });
