@@ -19,7 +19,7 @@ interface Task {
     uid: string;
     quote?: string;
     props?: { [name: string]: string };
-    hasImage?: boolean;
+    hasImage?: string | boolean;
 }
 const shuffledTasks: Ref<Task[]> = ref([]);
 onceLoggedIn(() => {
@@ -60,7 +60,7 @@ function deleteTask(task: Task) {
     }
 
     remove(dbref(db, `tasks/${userUID}/${task.uid}`));
-    if (task.hasImage) {
+    if (task.hasImage === true) {
         const storage = getStorage();
         deleteObject(storeref(storage, `images/tasks/${userUID}/${task.uid}.jpg`));
     }
@@ -70,7 +70,7 @@ function getImage(task: Ref<Task>) {
     const returnUrl: Ref<string | undefined> = ref(undefined);
 
     watch(task, () => {
-        if (!task.value.hasImage) {
+        if (task.value.hasImage !== true) {
             returnUrl.value = undefined;
             return
         }
