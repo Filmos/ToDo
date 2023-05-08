@@ -32,7 +32,7 @@ onceLoggedIn(() => {
                 ...data[key],
                 uid: key
             }
-        });
+        }).filter((task) => task.task !== undefined);
         shuffledTasks.value = shuffleTasks(tasks);
     });
 
