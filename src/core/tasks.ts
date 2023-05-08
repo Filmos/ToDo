@@ -37,8 +37,12 @@ onceLoggedIn(() => {
     });
 
 })
+let previousOrder: string[] = [];
 function shuffleTasks(tasks: Task[]) {
-    return tasks.sort(() => Math.random() - 0.5);
+    let shuffled = tasks.filter((task) => previousOrder.includes(task.uid)).sort((a, b) => previousOrder.indexOf(a.uid) - previousOrder.indexOf(b.uid));
+    shuffled = shuffled.concat(tasks.filter((task) => !previousOrder.includes(task.uid)).sort(() => Math.random() - 0.5));
+    previousOrder = shuffled.map((task) => task.uid);
+    return shuffled;
 }
 
 const defaultTask = {
