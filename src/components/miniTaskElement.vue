@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, computed } from 'vue';
+import { computed } from 'vue';
 import TaskFrame from '@/components/taskFrame.vue';
 import { defaultTask, getImage } from '@/core/tasks';
 
