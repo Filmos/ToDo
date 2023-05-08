@@ -6,14 +6,13 @@ import 'firebase/compat/auth';
 import { ref } from 'vue';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDXmtJRsurbjKAZNUmr9D1ULiB7F3R6ieQ",
-    authDomain: "ai-todo-list.firebaseapp.com",
-    databaseURL: "https://ai-todo-list.firebaseio.com",
-    projectId: "ai-todo-list",
-    storageBucket: "ai-todo-list.appspot.com",
-    messagingSenderId: "845753832501",
-    appId: "1:845753832501:web:8235c5beb77fe5aa3fcd7c",
-    measurementId: "G-P4Y317D5BJ"
+    apiKey: "AIzaSyBgesDR8BboHV2pqIRfcOYsQ-QTGhLz6ek",
+    authDomain: "shufflify-ai.firebaseapp.com",
+    databaseURL: "https://shufflify-ai-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "shufflify-ai",
+    storageBucket: "shufflify-ai.appspot.com",
+    messagingSenderId: "796055567642",
+    appId: "1:796055567642:web:b0bd35a32a0f0b660b00a3"
 };
 const app = firebase.initializeApp(firebaseConfig);
 

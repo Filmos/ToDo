@@ -6,7 +6,7 @@ const openai = new OpenAIApi(new Configuration({
     apiKey: secrets.openAIApiToken
 }));
 
-export const generateExtraTaskFields = functions.database.instance('ai-todo-list').ref('/tasks/{userId}/{taskId}')
+export const generateExtraTaskFields = functions.database.ref('/tasks/{userId}/{taskId}')
     .onCreate(async (snapshot, context) => {
         const task = snapshot.val();
         let response = await openai.createChatCompletion({
