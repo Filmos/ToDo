@@ -58,7 +58,7 @@ const image = getImage(fullTask)
     line-height: 1.2em;
     color: var(--color-text-heading);
     text-align: center;
-    margin-bottom: 0.3rem;
+    margin: 0 0.6rem 0.3rem;
     font-weight: 600;
 }
 
