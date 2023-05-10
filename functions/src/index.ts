@@ -23,7 +23,7 @@ export const generateExtraTaskFields = functions.database.ref('/tasks/{userId}/{
 "Extra": {
     "<name of a random absurd attribute of the task>": "<value for said attribute>"
 },
-"Quote": "<random motivational quote related to the task>"
+"Quote": "<random tip or motivational sentence related to the task>"
 }
 \`\`\``}],
             user: context.params.userId
