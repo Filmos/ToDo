@@ -31,20 +31,27 @@ export const generateExtraTaskFields = functions.database.ref('/tasks/{userId}/{
         console.log(`Status ${response.status}: ${response.statusText}`)
         console.log("Full response: ", response?.data)
 
-        const returnedValue = response?.data?.choices[0]?.message?.content;
+        let returnedValue = response?.data?.choices[0]?.message?.content;
         if (!returnedValue) return
         console.log("Raw response: ", returnedValue.replace(/\n/g, "\\n"))
+
+        const corrections = [
+            (x: string) => x,
+            (x: string) => x.replace(/,\s*}/g, '}'),
+            (x: string) => x.replace(/(\w)\s*}\s*$/, '$1"}').replace(/(Quote":\s*")((?:.|\s)+?)("?\s*})$/, (match, p1, p2, p3) => `${p1}${p2.replace(/"/g, '')}${p3}`)
+        ]
         let filledTemplate: any;
-        try {
-            filledTemplate = JSON.parse(returnedValue) as any;
-            if (!filledTemplate) return
-        } catch (e) {
+        for (let c = 0; c < corrections.length; c++) {
             try {
-                const fixedResponse = returnedValue.replace(/(\w)\s*}\s*$/, '$1"}').replace(/(Quote":\s*")((?:.|\s)+?)("?\s*})$/, (match, p1, p2, p3) => `${p1}${p2.replace(/"/g, '')}${p3}`)
-                filledTemplate = JSON.parse(fixedResponse) as any;
-                if (!filledTemplate) return
-            } catch (e) {
+                returnedValue = corrections[c](returnedValue);
+                filledTemplate = JSON.parse(returnedValue) as any;
+                if (!filledTemplate) continue
+                break
+            } catch (e) { }
+
+            if (c == corrections.length - 1) {
                 console.error("Response wasn't a valid JSON object")
+                return
             }
         }
 
