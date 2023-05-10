@@ -59,6 +59,7 @@ function deleteTask(task: Task) {
         return;
     }
 
+    previousOrder = [];
     remove(dbref(db, `tasks/${userUID}/${task.uid}`));
     if (task.hasImage === true) {
         const storage = getStorage();
