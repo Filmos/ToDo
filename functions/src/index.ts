@@ -23,6 +23,7 @@ export const generateExtraTaskFields = functions.database.ref('/tasks/{userId}/{
 "Extra": {
     "<name of a random absurd attribute of the task>": "<value for said attribute>"
 },
+"Icon": "<name of icon from the noun project>",
 "Quote": "<random tip or motivational sentence related to the task>"
 }
 \`\`\``}],
@@ -66,6 +67,45 @@ export const generateExtraTaskFields = functions.database.ref('/tasks/{userId}/{
 
         return await snapshot.ref.update({
             props: props,
-            quote: filledTemplate.Quote
+            quote: filledTemplate.Quote,
+            icon: {
+                prompt: filledTemplate.Icon
+            }
         });
     });
+
+var OAuth = require('oauth');
+var noun_oauth = new OAuth.OAuth(
+    'https://api.thenounproject.com',
+    'https://api.thenounproject.com',
+    secrets.nounProjectApiKey,
+    secrets.nounProjectApiSecret,
+    '1.0',
+    null,
+    'HMAC-SHA1'
+)
+export const generateIcon = functions.database.ref('/tasks/{userId}/{taskId}/icon')
+    .onCreate(async (snapshot, context) => {
+        const prompt = snapshot.val().prompt;
+        console.log(`Querying noun project for task ${context.params.userId}.${context.params.taskId} with prompt: ${prompt}`)
+
+        return new Promise((resolve, reject) => {
+            async function callback(e: string, data: any) {
+                if (e) reject(e)
+                console.log("Response: ", data)
+                data = JSON.parse(data)
+
+                const url = data.icons[0].thumbnail_url;
+                resolve(await snapshot.ref.update({
+                    url: url
+                }))
+            }
+            noun_oauth.get(
+                `https://api.thenounproject.com/v2/icon?query=${encodeURI(prompt)}&thumbnail_size=200&limit=1`,
+                null,
+                null,
+                callback
+            )
+        });
+    }
+    );
