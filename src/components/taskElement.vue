@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import TaskFrame from '@/components/taskFrame.vue';
+import TaskIcon from '@/components/taskIcon.vue';
 import { defaultTask, deleteTask, getImage } from '@/core/tasks';
 
 const props = defineProps(['task'])
@@ -15,7 +16,10 @@ const image = getImage(fullTask)
 
 <template>
     <TaskFrame class="task" :task="fullTask">
-        <span class="title">{{ fullTask.task }}</span>
+        <div class="title-bar">
+            <TaskIcon :task="fullTask" :optional="true" />
+            <span class="title">{{ fullTask.task }}</span>
+        </div>
         <div v-if="image" class="icon">
             <div class="align"><img :src="image" /></div>
         </div>
@@ -53,12 +57,19 @@ const image = getImage(fullTask)
     padding: 0rem 0.6rem 0.6rem;
 }
 
+.title-bar {
+    display: flex;
+    height: 1.92rem;
+    margin: 0 0.6rem 0.3rem;
+    justify-content: center;
+    gap: 0.55rem;
+}
+
 .title {
     font-size: 1.25rem;
-    line-height: 1.2em;
+    line-height: 1.92rem;
     color: var(--color-text-heading);
     text-align: center;
-    margin: 0 0.6rem 0.3rem;
     font-weight: 600;
 }
 

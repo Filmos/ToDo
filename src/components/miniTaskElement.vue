@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import TaskFrame from '@/components/taskFrame.vue';
+import TaskIcon from '@/components/taskIcon.vue';
 import { defaultTask, getImage } from '@/core/tasks';
 
 const props = defineProps(['task', 'tooltipRef'])
@@ -20,7 +21,9 @@ function onUnhover() {
 
 <template>
     <TaskFrame class="task" :task="fullTask" @mouseover="onHover" @mouseleave="onUnhover">
-        <div v-if="!image" class="task-image">{{ fullTask.task[0] }}</div>
+        <div class="task-image">
+            <TaskIcon v-if="!image" :task="fullTask" />
+        </div>
         <img v-if="image" class="task-image" :src="image" />
     </TaskFrame>
 </template>

@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { defaultTask, deleteTask } from '@/core/tasks';
-
 const props = defineProps(['task'])
-const fullTask = computed(() => {
-    return { ...defaultTask, ...props.task }
-})
 </script>
 
 <template>
