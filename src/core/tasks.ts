@@ -37,10 +37,21 @@ onceLoggedIn(() => {
     });
 
 })
+function shuffle(array: any[]) {
+    let currentIndex = array.length, randomIndex;
+    while (currentIndex > 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+
+    return array;
+}
+
 let previousOrder: string[] = [];
 function shuffleTasks(tasks: Task[]) {
     let shuffled = tasks.filter((task) => previousOrder.includes(task.uid)).sort((a, b) => previousOrder.indexOf(a.uid) - previousOrder.indexOf(b.uid));
-    shuffled = shuffled.concat(tasks.filter((task) => !previousOrder.includes(task.uid)).sort(() => Math.random() - 0.5));
+    shuffled = shuffled.concat(shuffle(tasks.filter((task) => !previousOrder.includes(task.uid))));
     previousOrder = shuffled.map((task) => task.uid);
     return shuffled;
 }
